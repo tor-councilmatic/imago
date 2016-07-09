@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from imago.views import (JurisdictionList,
                          PeopleList,
                          VoteList,
@@ -13,12 +13,19 @@ from imago.views import (JurisdictionList,
                          VoteDetail,
                          BillDetail,
                          OrganizationDetail,
-                         DivisionDetail
+                         DivisionDetail,
+
+                         PersonViewSet,
                         )
 
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'people', PersonViewSet)
+
 urlpatterns = [
+    url(r'^', include(router.urls)),
     url(r'^jurisdictions/$', JurisdictionList.as_view()),
-    url(r'^people/$', PeopleList.as_view()),
     url(r'^votes/$', VoteList.as_view()),
     url(r'^events/$', EventList.as_view()),
     url(r'^organizations/$', OrganizationList.as_view()),

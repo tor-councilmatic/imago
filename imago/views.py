@@ -27,6 +27,8 @@ from .serialize import (JURISDICTION_SERIALIZE,
 from restless.http import HttpError
 import datetime
 from django.db.models import Q
+from imago.serializers import PersonSerializer
+from rest_framework import viewsets
 
 """
 This module contains the class-based views that we expose over the API.
@@ -34,6 +36,12 @@ This module contains the class-based views that we expose over the API.
 The common logic for these views are in imago.helpers.*Endpoint
 """
 
+class PersonViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows people to be viewed or edited.
+    """
+    queryset = Person.objects.all().order_by('-created_at')
+    serializer_class = PersonSerializer
 
 class JurisdictionList(PublicListEndpoint):
     model = Jurisdiction
