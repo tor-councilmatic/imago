@@ -36,7 +36,7 @@ This module contains the class-based views that we expose over the API.
 The common logic for these views are in imago.helpers.*Endpoint
 """
 
-class PersonViewSet(viewsets.ModelViewSet):
+class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows people to be viewed or edited.
     """
