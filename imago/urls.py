@@ -34,7 +34,7 @@ urlpatterns = [
 
     # detail views
     url(r'^(?P<pk>ocd-jurisdiction/.+)/$', JurisdictionDetail.as_view()),
-    url(r'^(?P<pk>ocd-person/.+)/$', PersonDetail.as_view()),
+    url(r'^(?P<pk>ocd-person/.+)/$', PersonViewSet.as_view({'get':'retrieve'}), name='person-detail'),
     url(r'^(?P<pk>ocd-event/.+)/$', EventDetail.as_view()),
     url(r'^(?P<pk>ocd-vote/.+)/$', VoteDetail.as_view()),
     url(r'^(?P<pk>ocd-organization/.+)/$', OrganizationDetail.as_view()),
