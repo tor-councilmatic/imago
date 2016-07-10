@@ -1,5 +1,7 @@
 from opencivicdata.models import (
+        Division,
         Event,
+        Jurisdiction,
         Membership,
         Organization,
         Person,
@@ -88,6 +90,28 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
                 'end_date',
                 )
 
+class JurisdictionSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Jurisdiction
+        fields = (
+                'id',
+                'url',
+                'name',
+                'url',
+
+                'updated_at',
+                'created_at',
+
+                'classification',
+                'extras',
+                'feature_flags',
+
+                'division',
+                #'division_id',
+                )
+
+
 class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -124,5 +148,20 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
                 'extras',
 
                 'sources',
+                )
+
+class DivisionSerializer(serializers.HyperlinkedModelSerializer):
+    posts = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = Division
+        fields = (
+                'id',
+                'name',
+                'country',
+                'jurisdictions',
+                #'children',
+                #'geometries',
+                'posts',
                 )
 

@@ -28,7 +28,9 @@ from restless.http import HttpError
 import datetime
 from django.db.models import Q
 from imago.serializers import (
+        DivisionSerializer,
         EventSerializer,
+        JurisdictionSerializer,
         OrganizationSerializer,
         PersonSerializer,
         )
@@ -62,6 +64,22 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Event.objects.all().order_by('-created_at')
     serializer_class = EventSerializer
+
+
+class JurisdictionViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows juridiction to be viewed.
+    """
+    queryset = Jurisdiction.objects.all().order_by('-created_at')
+    serializer_class = JurisdictionSerializer
+
+
+class DivisionViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows juridiction to be viewed.
+    """
+    queryset = Division.objects.all().order_by('-created_at')
+    serializer_class = DivisionSerializer
 
 
 class JurisdictionList(PublicListEndpoint):
