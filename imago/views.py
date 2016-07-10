@@ -80,7 +80,7 @@ class DivisionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows juridiction to be viewed.
     """
-    queryset = Division.objects.all().order_by('-created_at')
+    queryset = Division.objects.all().order_by('-division')
     serializer_class = DivisionSerializer
 
 

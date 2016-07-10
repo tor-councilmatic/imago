@@ -158,15 +158,7 @@ class DivisionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Division
-        fields = (
-                'id',
-                'name',
-                'country',
-                'jurisdictions',
-                #'children',
-                #'geometries',
-                'posts',
-                )
+        fields = '__all__'
 
 
 class VoteEventSerializer(serializers.HyperlinkedModelSerializer):
