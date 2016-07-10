@@ -1,11 +1,14 @@
 from opencivicdata.models import (
+        Bill,
         Division,
         Event,
         Jurisdiction,
+        LegislativeSession,
         Membership,
         Organization,
         Person,
         Post,
+        VoteEvent,
         )
 from rest_framework import serializers
 
@@ -165,3 +168,28 @@ class DivisionSerializer(serializers.HyperlinkedModelSerializer):
                 'posts',
                 )
 
+
+class VoteEventSerializer(serializers.HyperlinkedModelSerializer):
+    legislative_session = serializers.StringRelatedField(many=False)
+
+    class Meta:
+        model = VoteEvent
+        fields = '__all__'
+
+
+class BillSerializer(serializers.HyperlinkedModelSerializer):
+    legislative_session = serializers.StringRelatedField(many=False)
+
+    class Meta:
+        model = Bill
+        fields = '__all__'
+
+class LegislativeSessionSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = LegislativeSession
+        fields = (
+                'identifier',
+                'classification',
+                'jurisdiction',
+                )

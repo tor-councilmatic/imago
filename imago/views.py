@@ -28,11 +28,13 @@ from restless.http import HttpError
 import datetime
 from django.db.models import Q
 from imago.serializers import (
+        BillSerializer,
         DivisionSerializer,
         EventSerializer,
         JurisdictionSerializer,
         OrganizationSerializer,
         PersonSerializer,
+        VoteEventSerializer,
         )
 from rest_framework import viewsets
 
@@ -80,6 +82,22 @@ class DivisionViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Division.objects.all().order_by('-created_at')
     serializer_class = DivisionSerializer
+
+
+class BillViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows bills to be viewed.
+    """
+    queryset = Bill.objects.all().order_by('-created_at')
+    serializer_class = BillSerializer
+
+
+class VoteViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows votes to be viewed.
+    """
+    queryset = VoteEvent.objects.all().order_by('-created_at')
+    serializer_class = VoteEventSerializer
 
 
 class JurisdictionList(PublicListEndpoint):
