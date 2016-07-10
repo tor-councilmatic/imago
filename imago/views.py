@@ -27,7 +27,11 @@ from .serialize import (JURISDICTION_SERIALIZE,
 from restless.http import HttpError
 import datetime
 from django.db.models import Q
-from imago.serializers import PersonSerializer
+from imago.serializers import (
+        EventSerializer,
+        OrganizationSerializer,
+        PersonSerializer,
+        )
 from rest_framework import viewsets
 
 """
@@ -38,10 +42,27 @@ The common logic for these views are in imago.helpers.*Endpoint
 
 class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows people to be viewed or edited.
+    API endpoint that allows people to be viewed.
     """
     queryset = Person.objects.all().order_by('-created_at')
     serializer_class = PersonSerializer
+
+
+class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows bills to be viewed.
+    """
+    queryset = Organization.objects.all().order_by('-created_at')
+    serializer_class = OrganizationSerializer
+
+
+class EventViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows events to be viewed.
+    """
+    queryset = Event.objects.all().order_by('-created_at')
+    serializer_class = EventSerializer
+
 
 class JurisdictionList(PublicListEndpoint):
     model = Jurisdiction
