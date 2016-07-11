@@ -55,3 +55,14 @@ class InlineListField(serializers.ListField):
 
     def to_representation(self, obj):
         return [django_obj_to_dict(i, self.include, self.exclude, self.children) for i in obj.all()]
+
+
+class InlineDictField(serializers.DictField):
+    def __init__(self, *args, **kwargs):
+        self.include = kwargs.pop('include', [])
+        self.exclude = kwargs.pop('exclude', [])
+        self.children = kwargs.pop('children', {})
+        super().__init__(*args, **kwargs)
+
+    def to_representation(self, obj):
+        return django_obj_to_dict(obj, self.include, self.exclude, self.children)

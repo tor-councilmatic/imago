@@ -11,7 +11,7 @@ from opencivicdata.models import (
         VoteEvent,
         )
 from rest_framework import serializers
-from imago.utils import InlineListField
+from imago.utils import InlineListField, InlineDictField
 
 
 
@@ -34,15 +34,7 @@ class PersonSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Person
-        fields = (
-                'id',
-                'url',
-                'name',
-                'sort_name',
-                'image',
-                'gender',
-                'memberships',
-                )
+        exclude = ('locked_fields',)
 
 class MembershipSerializer(serializers.ModelSerializer):
     organization = serializers.StringRelatedField(many=False)
@@ -122,11 +114,11 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
                 )
 
 class DivisionSerializer(serializers.HyperlinkedModelSerializer):
-    posts = serializers.StringRelatedField(many=True)
+    posts = PostSerializer(many=True)
 
     class Meta:
         model = Division
-        fields = '__all__'
+        fields = ('id', 'name', 'country', 'posts', 'jurisdictions')
 
 
 class VoteEventSerializer(serializers.HyperlinkedModelSerializer):
