@@ -11,42 +11,22 @@ from opencivicdata.models import (
         VoteEvent,
         )
 from rest_framework import serializers
+from imago.utils import InlineListField
 
 
 
 class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
-    jurisdiction = serializers.StringRelatedField(many=False)
-    sources = serializers.StringRelatedField(many=True)
-    identifiers = serializers.StringRelatedField(many=True)
-    links = serializers.StringRelatedField(many=True)
-    contact_details = serializers.StringRelatedField(many=True)
-    other_names = serializers.StringRelatedField(many=True)
+    #jurisdiction = serializers.StringRelatedField(many=False)
+    #sources = serializers.StringRelatedField(many=True)
+    #identifiers = serializers.StringRelatedField(many=True)
+    #links = serializers.StringRelatedField(many=True)
+    #contact_details = serializers.StringRelatedField(many=True)
+    #other_names = serializers.StringRelatedField(many=True)
+    children = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Organization
-        fields = (
-                'id',
-                'url',
-                'name',
-                'image',
-
-                'created_at',
-                'updated_at',
-
-                'extras',
-
-                'identifiers',
-                'links',
-                'contact_details',
-                'other_names',
-
-                'classification',
-                'founding_date',
-                'dissolution_date',
-                'jurisdiction',
-                'sources',
-                )
-
+        fields = '__all__'
 
 
 class PersonSerializer(serializers.HyperlinkedModelSerializer):
@@ -94,25 +74,13 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
                 )
 
 class JurisdictionSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.CharField()
+    division_id = serializers.CharField()
+    legislative_sessions = InlineListField(exclude=['id', 'jurisdiction', 'bills', 'votes'])
 
     class Meta:
         model = Jurisdiction
-        fields = (
-                'id',
-                'url',
-                'name',
-                'url',
-
-                'updated_at',
-                'created_at',
-
-                'classification',
-                'extras',
-                'feature_flags',
-
-                'division',
-                #'division_id',
-                )
+        exclude = ('division', 'locked_fields')
 
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
