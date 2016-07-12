@@ -79,39 +79,8 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Event
-        fields = (
-                'id',
-                'ocd_url',
-                'name',
-                'jurisdiction',
-                'jurisdiction_id',
-                'description',
-                'classification',
-
-                'participants',
-
-                'documents',
-                'media',
-
-                'links',
-
-                'created_at',
-                'updated_at',
-
-                'start_time',
-                'end_time',
-                'timezone',
-
-                'all_day',
-                'status',
-
-                'location',
-
-                'agenda',
-                'extras',
-
-                'sources',
-                )
+        # TODO: Add EventLocation type
+        exclude = ('locked_fields', 'location')
 
 class DivisionSerializer(serializers.HyperlinkedModelSerializer):
     posts = PostSerializer(many=True)
