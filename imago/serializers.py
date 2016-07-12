@@ -75,11 +75,13 @@ class JurisdictionSerializer(serializers.HyperlinkedModelSerializer):
         exclude = ('division', 'locked_fields')
 
 class SimpleEventSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.CharField()
+
     class Meta:
         model = Event
         exclude = ('locked_fields', 'location')
 
-class FullEventSerializer(serializers.HyperlinkedModelSerializer):
+class FullEventSerializer(SimpleEventSerializer):
     links = InlineListField()
     sources = InlineListField(exclude=['event'])
     agenda = InlineListField(exclude=['event'])
