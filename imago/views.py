@@ -30,7 +30,8 @@ from django.db.models import Q
 from imago.serializers import (
         BillSerializer,
         DivisionSerializer,
-        EventSerializer,
+        SimpleEventSerializer,
+        FullEventSerializer,
         JurisdictionSerializer,
         OrganizationSerializer,
         PersonSerializer,
@@ -43,6 +44,16 @@ This module contains the class-based views that we expose over the API.
 
 The common logic for these views are in imago.helpers.*Endpoint
 """
+
+class MultiSerializerReadOnlyModelViewSet(viewsets.ReadOnlyModelViewSet):
+    serializers = {
+        'default': None,
+    }
+
+    def get_serializer_class(self):
+        print(self.action)
+        return self.serializers.get(self.action, self.serializers['default'])
+
 
 class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -60,12 +71,15 @@ class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrganizationSerializer
 
 
-class EventViewSet(viewsets.ReadOnlyModelViewSet):
+class EventViewSet(MultiSerializerReadOnlyModelViewSet):
     """
     API endpoint that allows events to be viewed.
     """
-    queryset = Event.objects.all().order_by('-created_at')
-    serializer_class = EventSerializer
+    queryset = Event.objects.all().order_by('-start_time')
+    serializers = {
+            'default': FullEventSerializer,
+            'list': SimpleEventSerializer,
+            }
 
 
 class JurisdictionViewSet(viewsets.ReadOnlyModelViewSet):

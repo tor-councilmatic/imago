@@ -74,13 +74,20 @@ class JurisdictionSerializer(serializers.HyperlinkedModelSerializer):
         model = Jurisdiction
         exclude = ('division', 'locked_fields')
 
+class SimpleEventSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Event
+        exclude = ('locked_fields', 'location')
 
-class EventSerializer(serializers.HyperlinkedModelSerializer):
+class FullEventSerializer(serializers.HyperlinkedModelSerializer):
+    links = InlineListField()
+    sources = InlineListField(exclude=['event'])
+    agenda = InlineListField(exclude=['event'])
+    location = InlineDictField(exclude=['event', 'jurisdiction', 'id'])
 
     class Meta:
         model = Event
-        # TODO: Add EventLocation type
-        exclude = ('locked_fields', 'location')
+        exclude = ('locked_fields',)
 
 class DivisionSerializer(serializers.HyperlinkedModelSerializer):
     posts = PostSerializer(many=True)
