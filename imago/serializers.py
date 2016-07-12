@@ -120,7 +120,7 @@ class SimpleBillSerializer(serializers.HyperlinkedModelSerializer):
 class FullBillSerializer(SimpleBillSerializer):
     actions = InlineListField(exclude=['bill', 'id'])
     sources = InlineListField(exclude=['bill'])
-    sponsorships = InlineListField()
+    sponsorships = InlineListField(exclude=['bill'])
     votes = InlineListField(include=['counts', 'id', 'motion_classification', 'motion_text', 'result', 'start_date'])
 
 
