@@ -81,7 +81,7 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
         model = Event
         fields = (
                 'id',
-                'url',
+                'ocd_url',
                 'name',
                 'jurisdiction',
                 'jurisdiction_id',
