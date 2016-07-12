@@ -14,7 +14,8 @@ from opencivicdata.models import (Jurisdiction,
 
 import datetime
 from imago.serializers import (
-        BillSerializer,
+        SimpleBillSerializer,
+        FullBillSerializer,
         DivisionSerializer,
         SimpleEventSerializer,
         FullEventSerializer,
@@ -84,12 +85,15 @@ class DivisionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = DivisionSerializer
 
 
-class BillViewSet(viewsets.ReadOnlyModelViewSet):
+class BillViewSet(MultiSerializerReadOnlyModelViewSet):
     """
     API endpoint that allows bills to be viewed.
     """
     queryset = Bill.objects.all().order_by('-created_at')
-    serializer_class = BillSerializer
+    serializers = {
+            'default': FullBillSerializer,
+            'list': SimpleBillSerializer,
+            }
 
 
 class VoteViewSet(viewsets.ReadOnlyModelViewSet):

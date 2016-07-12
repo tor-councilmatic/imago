@@ -108,12 +108,21 @@ class VoteEventSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class BillSerializer(serializers.HyperlinkedModelSerializer):
-    legislative_session = serializers.StringRelatedField(many=False)
+class SimpleBillSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.CharField()
+    legislative_session = InlineDictField(include=['identifier'])
 
     class Meta:
         model = Bill
-        fields = '__all__'
+        exclude = ('locked_fields',)
+
+
+class FullBillSerializer(SimpleBillSerializer):
+    actions = InlineListField(exclude=['bill', 'id'])
+    sources = InlineListField(exclude=['bill'])
+    sponsorships = InlineListField()
+    votes = InlineListField(include=['counts', 'id', 'motion_classification', 'motion_text', 'result', 'start_date'])
+
 
 class LegislativeSessionSerializer(serializers.HyperlinkedModelSerializer):
 
