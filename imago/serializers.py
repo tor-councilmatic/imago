@@ -86,6 +86,7 @@ class FullEventSerializer(SimpleEventSerializer):
     sources = InlineListField(exclude=['event'])
     agenda = InlineListField(exclude=['event'])
     location = InlineDictField(exclude=['event', 'jurisdiction', 'id'])
+    participants = InlineListField(exclude=['event', 'id'])
 
     class Meta:
         model = Event
