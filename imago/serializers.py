@@ -2,6 +2,7 @@ from opencivicdata.models import (
         Bill,
         Division,
         Event,
+        EventParticipant,
         Jurisdiction,
         LegislativeSession,
         Membership,
@@ -74,6 +75,15 @@ class JurisdictionSerializer(serializers.HyperlinkedModelSerializer):
         model = Jurisdiction
         exclude = ('division', 'locked_fields')
 
+
+class EventParticipantSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = EventParticipant
+        # TODO: Figure out how to get ocd_url field working
+        fields = ('entity_name', 'entity_type', 'entity_id', 'note')
+
+
 class SimpleEventSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.CharField()
 
@@ -83,10 +93,10 @@ class SimpleEventSerializer(serializers.HyperlinkedModelSerializer):
 
 class FullEventSerializer(SimpleEventSerializer):
     links = InlineListField()
-    sources = InlineListField(exclude=['event'])
+    sources = InlineListField(exclude=['event', 'id'])
     agenda = InlineListField(exclude=['event'])
     location = InlineDictField(exclude=['event', 'jurisdiction', 'id'])
-    participants = InlineListField(exclude=['event', 'id'])
+    participants = EventParticipantSerializer(many=True)
 
     class Meta:
         model = Event
