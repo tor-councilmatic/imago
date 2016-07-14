@@ -38,7 +38,6 @@ class MultiSerializerReadOnlyModelViewSet(viewsets.ReadOnlyModelViewSet):
     }
 
     def get_serializer_class(self):
-        print(self.action)
         return self.serializers.get(self.action, self.serializers['default'])
 
 
