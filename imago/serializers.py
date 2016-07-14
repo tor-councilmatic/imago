@@ -2,7 +2,9 @@ from opencivicdata.models import (
         Bill,
         Division,
         Event,
+        EventAgendaItem,
         EventParticipant,
+        EventRelatedEntity,
         Jurisdiction,
         LegislativeSession,
         Membership,
@@ -77,6 +79,21 @@ class JurisdictionSerializer(serializers.HyperlinkedModelSerializer):
         exclude = ('division', 'locked_fields')
 
 
+class EventRelatedEntitySerializer(serializers.ModelSerializer):
+    entity_id = serializers.CharField()
+
+    class Meta:
+        model = EventRelatedEntity
+        fields = ('entity_id', 'entity_name', 'entity_type', 'note')
+
+
+class EventAgendaItemSerializer(serializers.ModelSerializer):
+    related_entities = EventRelatedEntitySerializer(many=True)
+
+    class Meta:
+        model = EventAgendaItem
+        fields = ('description', 'notes', 'order', 'related_entities', 'subjects')
+
 class EventParticipantSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
@@ -95,7 +112,7 @@ class SimpleEventSerializer(serializers.HyperlinkedModelSerializer):
 class FullEventSerializer(SimpleEventSerializer):
     links = InlineListField()
     sources = InlineListField(exclude=['event', 'id'])
-    agenda = InlineListField(exclude=['event'])
+    agenda = EventAgendaItemSerializer(many=True)
     location = InlineDictField(exclude=['event', 'jurisdiction', 'id'])
     participants = EventParticipantSerializer(many=True)
 
