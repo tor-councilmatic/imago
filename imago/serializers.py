@@ -24,6 +24,7 @@ class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
     #contact_details = serializers.StringRelatedField(many=True)
     #other_names = serializers.StringRelatedField(many=True)
     children = serializers.StringRelatedField(many=True)
+    sources = InlineListField(include=['note', 'url'])
 
     class Meta:
         model = Organization
@@ -129,7 +130,7 @@ class SimpleBillSerializer(serializers.HyperlinkedModelSerializer):
 
 class FullBillSerializer(SimpleBillSerializer):
     actions = InlineListField(exclude=['bill', 'id'])
-    sources = InlineListField(exclude=['bill'])
+    sources = InlineListField(include=['note', 'url'])
     sponsorships = InlineListField(exclude=['bill'])
     votes = InlineListField(include=['counts', 'id', 'motion_classification', 'motion_text', 'result', 'start_date'])
 
