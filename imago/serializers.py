@@ -107,7 +107,8 @@ class SimpleEventSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Event
-        exclude = ('locked_fields', 'location')
+        exclude = ('location', 'extras', 'created_at', 'updated_at', 'locked_fields', 'jurisdiction')
+
 
 class FullEventSerializer(SimpleEventSerializer):
     links = InlineListField()
