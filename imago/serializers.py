@@ -18,19 +18,27 @@ from imago.utils import InlineListField, InlineDictField
 
 
 
-class OrganizationSerializer(serializers.HyperlinkedModelSerializer):
-    #jurisdiction = serializers.StringRelatedField(many=False)
-    #sources = serializers.StringRelatedField(many=True)
-    #identifiers = serializers.StringRelatedField(many=True)
-    #links = serializers.StringRelatedField(many=True)
-    #contact_details = serializers.StringRelatedField(many=True)
-    #other_names = serializers.StringRelatedField(many=True)
-    children = serializers.StringRelatedField(many=True)
-    sources = InlineListField(include=['note', 'url'])
+class SimpleOrganizationSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.CharField()
 
     class Meta:
         model = Organization
-        fields = '__all__'
+        exclude = ('locked_fields', 'extras', 'created_at', 'updated_at', 'parent')
+
+class FullOrganizationSerializer(SimpleOrganizationSerializer):
+    identifiers = InlineListField(include=['identifier', 'scheme'])
+    links = InlineListField()
+    memberships = InlineListField(include=['person', 'post_id', 'start_date', 'end_date'])
+    contact_details = InlineListField(exclude=['id', 'organization'])
+    other_names = InlineListField(exclude=['id', 'organization'])
+    children = serializers.StringRelatedField(many=True)
+    sources = InlineListField(include=['note', 'url'])
+    posts = InlineListField(include=['division', 'id', 'label', 'role'])
+
+    class Meta:
+        model = Organization
+        fields = None
+        exclude = ('locked_fields',)
 
 
 class PersonSerializer(serializers.HyperlinkedModelSerializer):

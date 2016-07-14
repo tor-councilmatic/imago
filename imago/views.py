@@ -20,7 +20,8 @@ from imago.serializers import (
         SimpleEventSerializer,
         FullEventSerializer,
         JurisdictionSerializer,
-        OrganizationSerializer,
+        SimpleOrganizationSerializer,
+        FullOrganizationSerializer,
         PersonSerializer,
         VoteEventSerializer,
         )
@@ -49,12 +50,15 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PersonSerializer
 
 
-class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
+class OrganizationViewSet(MultiSerializerReadOnlyModelViewSet):
     """
     API endpoint that allows bills to be viewed.
     """
     queryset = Organization.objects.all().order_by('-created_at')
-    serializer_class = OrganizationSerializer
+    serializers = {
+            'default': FullOrganizationSerializer,
+            'list': SimpleOrganizationSerializer,
+            }
 
 
 class EventViewSet(MultiSerializerReadOnlyModelViewSet):
