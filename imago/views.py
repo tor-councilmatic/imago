@@ -9,6 +9,7 @@ from opencivicdata.models import (Jurisdiction,
                                   Bill,
                                   VoteEvent,
                                   Event,
+                                  EventAgendaItem,
                                   Division
                                  )
 
@@ -22,6 +23,7 @@ from .serialize import (JURISDICTION_SERIALIZE,
                         VOTE_SERIALIZE,
                         BILL_SERIALIZE,
                         EVENT_SERIALIZE,
+                        EVENT_AGENDA_ITEM,
                         DIVISION_SERIALIZE
                        )
 from restless.http import HttpError
@@ -325,3 +327,26 @@ class DivisionDetail(PublicDetailEndpoint):
                       'posts.organization.classification',
                       'posts.label',
                       'posts.role']
+
+class AgendaItemList(PublicListEndpoint):
+    model = EventAgendaItem
+    serialize_config = EVENT_AGENDA_ITEM
+    default_fields = ['id',
+                      'description',
+                      'event.name',
+                      'event.start_time',
+                      'event.id',
+                      'related_entities']
+
+
+class AgendaItemDetail(PublicDetailEndpoint):
+    model = EventAgendaItem
+    serialize_config = EVENT_AGENDA_ITEM
+    default_fields = ['id',
+                      'order',
+                      'classification',
+                      'subjects',
+                      'notes',
+                      'description',
+                      'event',
+                      'related_entities']

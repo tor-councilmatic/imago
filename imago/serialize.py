@@ -316,10 +316,13 @@ BILL_SERIALIZE['votes'] = sfilter(
 
 
 EVENT_AGENDA_ITEM = dict([
+    ('id', {}),
     ('description', {}),
     ('order', {}),
     ('subjects', lambda x: x.subjects),
     ('notes', {}),
+    ('event', {"id": {}, "name": {}, "start_time": lambda x: dout(x.start_time)}),
+    ('classification', {}),
 
     ('related_entities', {"note": {}, "entity_name": {}, "entity_type": {},
                           "entity_id": {}}),
@@ -354,11 +357,12 @@ EVENT_SERIALIZE = dict([
 
     ('location', {"name": {}, "url": {}, "coordinates": {}}),
 
-    ('agenda', EVENT_AGENDA_ITEM),
+    ('agenda', sfilter(EVENT_AGENDA_ITEM, blacklist=['event'])),
     ('extras', lambda x: x.extras),
 
     ("sources", SOURCES_SERIALIZE),
 ])
+
 
 def boundary_to_dict(boundary):
     d = boundary.as_dict()
