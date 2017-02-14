@@ -321,7 +321,12 @@ EVENT_AGENDA_ITEM = dict([
     ('order', {}),
     ('subjects', lambda x: x.subjects),
     ('notes', {}),
-    ('event', {"id": {}, "name": {}, "start_time": lambda x: dout(x.start_time)}),
+    ('event', {
+        "id": {},
+        "name": {},
+        "timezone": {},
+        "start_time": lambda x: dout(x.start_time)}
+        ),
     ('classification', {}),
 
     ('related_entities', {"note": {}, "entity_name": {}, "entity_type": {},

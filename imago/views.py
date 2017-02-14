@@ -336,6 +336,7 @@ class AgendaItemList(PublicListEndpoint):
                       'event.name',
                       'event.start_time',
                       'event.id',
+                      'event.timezone',
                       'related_entities']
 
 
